@@ -95,8 +95,8 @@ namespace DoenaSoft.DVDProfiler.InitializeTVShowChildProfiles
                 Boolean bluRay;
                 String custom;
 
-                parent.GetMediaTypes(out dvd, out hddvd, out bluRay);
-                child.SetMediaTypes(dvd, hddvd, bluRay);
+                parent.GetMediaTypes(out dvd, out hddvd, out bluRay, out var ultraHD);
+                child.SetMediaTypes(dvd, hddvd, bluRay, ultraHD);
                 parent.GetCustomMediaType(out custom);
                 if (String.IsNullOrEmpty(custom) == false)
                 {
@@ -347,7 +347,7 @@ namespace DoenaSoft.DVDProfiler.InitializeTVShowChildProfiles
                     Boolean uncredited;
 
                     parent.GetCastByIndex(c, out firstName, out middleName, out lastName, out birthYear, out part
-                        , out creditedAs, out voice, out uncredited);
+                        , out creditedAs, out voice, out uncredited, out var puppeteer);
                     if (firstName == null && lastName == null)
                     {
                         String caption;
@@ -358,7 +358,7 @@ namespace DoenaSoft.DVDProfiler.InitializeTVShowChildProfiles
                     }
                     else
                     {
-                        child.AddCast(firstName, middleName, lastName, birthYear, part, creditedAs, voice, uncredited);
+                        child.AddCast(firstName, middleName, lastName, birthYear, part, creditedAs, voice, uncredited, puppeteer);
                     }
                 }
             }
