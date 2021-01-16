@@ -36,7 +36,6 @@
             this.SetLockOnEntireGroupBox = new System.Windows.Forms.GroupBox();
             this.EntireDvdLockCheckBox = new System.Windows.Forms.CheckBox();
             this.SetLockOnGroupBox = new System.Windows.Forms.GroupBox();
-            this.OriginalTitleLockCheckBox = new System.Windows.Forms.CheckBox();
             this.DiscsLockCheckBox = new System.Windows.Forms.CheckBox();
             this.MediaTypesLockCheckBox = new System.Windows.Forms.CheckBox();
             this.EasterEggsLockCheckBox = new System.Windows.Forms.CheckBox();
@@ -95,6 +94,7 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkForUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.EditionCheckBox = new System.Windows.Forms.CheckBox();
             this.TabControl.SuspendLayout();
             this.PublicTabPage.SuspendLayout();
             this.SetLockOnEntireGroupBox.SuspendLayout();
@@ -153,7 +153,6 @@
             // 
             // SetLockOnGroupBox
             // 
-            this.SetLockOnGroupBox.Controls.Add(this.OriginalTitleLockCheckBox);
             this.SetLockOnGroupBox.Controls.Add(this.DiscsLockCheckBox);
             this.SetLockOnGroupBox.Controls.Add(this.MediaTypesLockCheckBox);
             this.SetLockOnGroupBox.Controls.Add(this.EasterEggsLockCheckBox);
@@ -178,12 +177,6 @@
             resources.ApplyResources(this.SetLockOnGroupBox, "SetLockOnGroupBox");
             this.SetLockOnGroupBox.Name = "SetLockOnGroupBox";
             this.SetLockOnGroupBox.TabStop = false;
-            // 
-            // OriginalTitleLockCheckBox
-            // 
-            resources.ApplyResources(this.OriginalTitleLockCheckBox, "OriginalTitleLockCheckBox");
-            this.OriginalTitleLockCheckBox.Name = "OriginalTitleLockCheckBox";
-            this.OriginalTitleLockCheckBox.UseVisualStyleBackColor = true;
             // 
             // DiscsLockCheckBox
             // 
@@ -313,6 +306,7 @@
             // 
             // OverwriteGroupBox
             // 
+            this.OverwriteGroupBox.Controls.Add(this.EditionCheckBox);
             this.OverwriteGroupBox.Controls.Add(this.OriginalTitleCheckBox);
             this.OverwriteGroupBox.Controls.Add(this.BackCoverImagesCheckBox);
             this.OverwriteGroupBox.Controls.Add(this.DiscsCheckBox);
@@ -567,6 +561,12 @@
             resources.ApplyResources(this.aboutToolStripMenuItem, "aboutToolStripMenuItem");
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.OnAboutToolStripMenuItemClick);
             // 
+            // EditionCheckBox
+            // 
+            resources.ApplyResources(this.EditionCheckBox, "EditionCheckBox");
+            this.EditionCheckBox.Name = "EditionCheckBox";
+            this.EditionCheckBox.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AcceptButton = this.OkButton;
@@ -669,8 +669,6 @@
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem checkForUpdatesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
-        private System.Windows.Forms.CheckBox OriginalTitleLockCheckBox;
-
-
+        private System.Windows.Forms.CheckBox EditionCheckBox;
     }
 }

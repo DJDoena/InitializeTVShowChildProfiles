@@ -112,6 +112,12 @@ namespace DoenaSoft.DVDProfiler.InitializeTVShowChildProfiles
                 child.SetLockByID(PluginConstants.LOCK_MediaTypes, true);
             }
             #endregion
+            #region Edition
+            if (this.EditionCheckBox.Checked)
+            {
+                child.SetEdition(parent.GetEdition());
+            }
+            #endregion
             #region Original Title
             if (this.OriginalTitleCheckBox.Checked)
             {
@@ -291,6 +297,11 @@ namespace DoenaSoft.DVDProfiler.InitializeTVShowChildProfiles
                 SetFeature(parent, child, PluginConstants.FEATURE_DigitalCopy);
                 SetFeature(parent, child, PluginConstants.FEATURE_PIP);
                 SetFeature(parent, child, PluginConstants.FEATURE_BDLive);
+
+                SetFeature(parent, child, PluginConstants.FEATURE_CineChat);
+                SetFeature(parent, child, PluginConstants.FEATURE_DBOX);
+                SetFeature(parent, child, PluginConstants.FEATURE_MovieIQ);
+                SetFeature(parent, child, PluginConstants.FEATURE_PlayAll);
 
                 child.SetOtherFeatures(parent.GetOtherFeatures());
             }

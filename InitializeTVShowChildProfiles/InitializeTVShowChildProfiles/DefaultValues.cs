@@ -10,6 +10,7 @@ namespace DoenaSoft.DVDProfiler.InitializeTVShowChildProfiles
     {
         public Boolean MediaTypes = true;
         public Boolean MediaTypesLock = true;
+        public Boolean Edition = false;
         public Boolean OriginalTitle = false;
         public Boolean ProductionYear = true;
         public Boolean ProductionYearLock = false;

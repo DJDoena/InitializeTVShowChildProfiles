@@ -1,8 +1,8 @@
 [Setup]
 AppName=Initialize TV Show Child Profiles
 AppId=InitializeTVShowChildProfiles
-AppVerName=Initialize TV Show Child Profiles 3.0.1.1
-AppCopyright=Copyright © Doena Soft. 2010 - 2020
+AppVerName=Initialize TV Show Child Profiles 3.0.1.2
+AppCopyright=Copyright © Doena Soft. 2010 - 2021
 AppPublisher=Doena Soft.
 AppPublisherURL=http://doena-journal.net/en/dvd-profiler-tools/
 DefaultDirName={commonpf32}\Doena Soft.\Initialize TV Show Child Profiles
@@ -20,9 +20,9 @@ WizardSmallImageFile=compiler:wizmodernsmallimage-is.bmp
 DisableReadyPage=yes
 ShowLanguageDialog=no
 VersionInfoCompany=Doena Soft.
-VersionInfoCopyright=2010 - 2020
+VersionInfoCopyright=2010 - 2021
 VersionInfoDescription=Initialize TV Show Child Profiles Setup
-VersionInfoVersion=3.0.1.1
+VersionInfoVersion=3.0.1.2
 UninstallDisplayIcon={app}\djdsoft.ico
 
 [Languages]
