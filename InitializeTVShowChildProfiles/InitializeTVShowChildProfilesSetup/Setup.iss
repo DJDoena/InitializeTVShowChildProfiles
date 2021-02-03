@@ -46,12 +46,12 @@ Source: "de\DVDProfilerHelper.resources.dll"; DestDir: "{app}\de"; Flags: ignore
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Run]
-Filename: "{win}\Microsoft.NET\Framework\v2.0.50727\RegAsm.exe"; Parameters: "/codebase ""{app}\InitializeTVShowChildProfiles.dll"""; Flags: runhidden
+Filename: "{win}\Microsoft.NET\Framework\v4.0.30319\RegAsm.exe"; Parameters: "/codebase ""{app}\InitializeTVShowChildProfiles.dll"""; Flags: runhidden
 
 ;[UninstallDelete]
 
 [UninstallRun]
-Filename: "{win}\Microsoft.NET\Framework\v2.0.50727\RegAsm.exe"; Parameters: "/u ""{app}\InitializeTVShowChildProfiles.dll"""; Flags: runhidden
+Filename: "{win}\Microsoft.NET\Framework\v4.0.30319\RegAsm.exe"; Parameters: "/u ""{app}\InitializeTVShowChildProfiles.dll"""; Flags: runhidden
 
 [Registry]
 ; Register - Cleanup ahead of time in case the user didn't uninstall the previous version.
@@ -70,13 +70,13 @@ Root: HKLM; Subkey: "Software\Classes\CLSID\{{B57886BD-AEA0-4a23-A691-2A36175989
 Root: HKLM; Subkey: "Software\Classes\DoenaSoft.DVDProfiler.InitializeTVShowChildProfiles.Plugin"; Flags: dontcreatekey uninsdeletekey
 
 [Code]
-function IsDotNET35Detected(): boolean;
-// Function to detect dotNet framework version 2.0
+function IsDotNET45Detected(): boolean;
+// Function to detect dotNet framework version 4.0
 // Returns true if it is available, false it's not.
 var
 dotNetStatus: boolean;
 begin
-dotNetStatus := RegKeyExists(HKLM, 'SOFTWARE\Microsoft\NET Framework Setup\NDP\v3.5');
+dotNetStatus := RegKeyExists(HKLM, 'SOFTWARE\Microsoft\NET Framework Setup\NDP\v4');
 Result := dotNetStatus;
 end;
 
@@ -84,9 +84,9 @@ function InitializeSetup(): Boolean;
 // Called at the beginning of the setup package.
 begin
 
-if not IsDotNET35Detected then
+if not IsDotNET45Detected then
 begin
-MsgBox( 'The Microsoft .NET Framework version 3.5 is not installed. Please install it and try again.', mbInformation, MB_OK );
+MsgBox( 'The Microsoft .NET Framework version 4 is not installed. Please install it and try again.', mbInformation, MB_OK );
 Result := false;
 end
 else
