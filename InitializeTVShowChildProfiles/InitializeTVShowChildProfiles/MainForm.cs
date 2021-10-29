@@ -10,95 +10,104 @@ namespace DoenaSoft.DVDProfiler.InitializeTVShowChildProfiles
     internal partial class MainForm : Form
     {
         #region Fields
-        private IDVDProfilerAPI Api;
+
+        private readonly IDVDProfilerAPI _api;
+
         #endregion
 
         #region Constructor
+
         public MainForm(IDVDProfilerAPI api)
         {
-            this.Api = api;
-            InitializeComponent();
+            _api = api;
+
+            this.InitializeComponent();
         }
+
         #endregion
 
         #region Form Events
-        private void OnAboutToolStripMenuItemClick(Object sender, EventArgs e)
+
+        private void OnAboutToolStripMenuItemClick(object sender, EventArgs e)
         {
-            using (AboutBox aboutBox = new AboutBox(this.GetType().Assembly))
+            using (var aboutBox = new AboutBox(this.GetType().Assembly))
             {
                 aboutBox.ShowDialog();
             }
         }
 
-        private void OnCheckForUpdatesToolStripMenuItemClick(Object sender, EventArgs e)
+        private void OnCheckForUpdatesToolStripMenuItemClick(object sender, EventArgs e)
         {
             this.CheckForNewVersion();
         }
 
-        private void OnMainFormLoad(Object sender, EventArgs e)
+        private void OnMainFormLoad(object sender, EventArgs e)
         {
             this.SuspendLayout();
             this.LayoutForm();
             this.ResumeLayout();
+
             if (Plugin.Settings.CurrentVersion != this.GetType().Assembly.GetName().Version.ToString())
             {
                 Plugin.Settings.CurrentVersion = this.GetType().Assembly.GetName().Version.ToString();
             }
         }
 
-        private void OnMainFormClosing(Object sender, FormClosingEventArgs e)
+        private void OnMainFormClosing(object sender, FormClosingEventArgs e)
         {
             this.WriteDefaultValues();
         }
 
-        private void OnOkButtonClick(Object sender, EventArgs e)
+        private void OnOkButtonClick(object sender, EventArgs e)
         {
-            IDVDInfo parent;
+            var parent = _api.GetDisplayedDVD();
 
-            parent = this.Api.GetDisplayedDVD();
             if (parent.GetProfileID() != null)
             {
-                this.Api.DVDByProfileID(out parent, parent.GetProfileID(), -1, -1);
-                for (Int32 i = 0; i < parent.GetBoxSetContentCount(); i++)
+                _api.DVDByProfileID(out parent, parent.GetProfileID(), -1, -1);
+
+                for (int i = 0; i < parent.GetBoxSetContentCount(); i++)
                 {
-                    IDVDInfo child;
+                    _api.DVDByProfileID(out var child, parent.GetBoxSetContentByIndex(i), -1, -1);
 
-                    this.Api.DVDByProfileID(out child, parent.GetBoxSetContentByIndex(i), -1, -1);
                     this.CopyFromParent(parent, child);
-                    this.Api.SaveDVDToCollection(child);
-                    this.Api.UpdateProfileInListDisplay(child.GetProfileID());
+
+                    _api.SaveDVDToCollection(child);
+
+                    _api.UpdateProfileInListDisplay(child.GetProfileID());
                 }
-                this.Api.RequeryDatabase();
+
+                _api.RequeryDatabase();
             }
+
             this.Close();
         }
 
-        private void OnAbortButtonClick(Object sender, EventArgs e)
+        private void OnAbortButtonClick(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        private void OnEntireDvdLockCheckBoxCheckedChanged(Object sender, EventArgs e)
+        private void OnEntireDvdLockCheckBoxCheckedChanged(object sender, EventArgs e)
         {
-            this.SetLockOnGroupBox.Enabled = (this.EntireDvdLockCheckBox.Checked == false);
+            SetLockOnGroupBox.Enabled = (EntireDvdLockCheckBox.Checked == false);
         }
+
         #endregion
 
         #region Helper Functions
         private void CopyFromParent(IDVDInfo parent, IDVDInfo child)
         {
             #region Media Types
-            if (this.MediaTypesCheckBox.Checked)
-            {
-                Boolean dvd;
-                Boolean hddvd;
-                Boolean bluRay;
-                String custom;
 
-                parent.GetMediaTypes(out dvd, out hddvd, out bluRay, out var ultraHD);
+            if (MediaTypesCheckBox.Checked)
+            {
+                parent.GetMediaTypes(out var dvd, out var hddvd, out var bluRay, out var ultraHD);
+                parent.GetCustomMediaType(out var custom);
+
                 child.SetMediaTypes(dvd, hddvd, bluRay, ultraHD);
-                parent.GetCustomMediaType(out custom);
-                if (String.IsNullOrEmpty(custom) == false)
+
+                if (string.IsNullOrEmpty(custom) == false)
                 {
                     child.SetCustomMediaType(custom);
                 }
@@ -107,126 +116,168 @@ namespace DoenaSoft.DVDProfiler.InitializeTVShowChildProfiles
                     child.SetCustomMediaType(null);
                 }
             }
-            if (this.MediaTypesLockCheckBox.Checked)
+
+            if (MediaTypesLockCheckBox.Checked)
             {
                 child.SetLockByID(PluginConstants.LOCK_MediaTypes, true);
             }
+
             #endregion
+
             #region Edition
-            if (this.EditionCheckBox.Checked)
+
+            if (EditionCheckBox.Checked)
             {
                 child.SetEdition(parent.GetEdition());
             }
+
             #endregion
-            #region Original Title
-            if (this.OriginalTitleCheckBox.Checked)
+
+            #region Title
+
+            if (OriginalTitleCheckBox.Checked)
             {
                 child.SetOriginalTitle(parent.GetOriginalTitle());
             }
+            if (TitleLockCheckBox.Checked)
+            {
+                child.SetLockByID(PluginConstants.LOCK_Title, true);
+            }
+
             #endregion
+
             #region Production Year
-            if (this.ProductionYearCheckBox.Checked)
+
+            if (ProductionYearCheckBox.Checked)
             {
                 child.SetProductionYear(parent.GetProductionYear());
             }
-            if (this.ProductionYearLockCheckBox.Checked)
+
+            if (ProductionYearLockCheckBox.Checked)
             {
                 child.SetLockByID(PluginConstants.LOCK_ProductionYear, true);
             }
+
             #endregion
+
             #region Country of Origin
-            if (this.CountryOfOriginCheckBox.Checked)
+
+            if (CountryOfOriginCheckBox.Checked)
             {
-                for (Int32 c = 1; c < 4; c++)
+                for (var c = 1; c < 4; c++)
                 {
                     child.SetCountryOfOrigin(c, parent.GetCountryOfOrigin(c));
                 }
             }
-            if (this.CountryOfOriginLockCheckBox.Checked)
+
+            if (CountryOfOriginLockCheckBox.Checked)
             {
                 //
             }
-            #endregion
-            #region Rating
-            if (this.RatingCheckBox.Checked)
-            {
-                Int32 ratingSystem;
-                Int32 ratingAge;
-                Int32 ratingVariant;
 
-                parent.GetRating(out ratingSystem, out ratingAge, out ratingVariant);
+            #endregion
+
+            #region Rating
+
+            if (RatingCheckBox.Checked)
+            {
+                parent.GetRating(out var ratingSystem, out var ratingAge, out var ratingVariant);
+
                 child.SetRating(ratingSystem, ratingAge, ratingVariant);
                 child.SetRatingDescription(parent.GetRatingDescription());
             }
-            if (this.RatingLockCheckBox.Checked)
+
+            if (RatingLockCheckBox.Checked)
             {
                 child.SetLockByID(PluginConstants.LOCK_Rating, true);
             }
+
             #endregion
+
             #region Regions
-            if (this.RegionsCheckBox.Checked)
+
+            if (RegionsCheckBox.Checked)
             {
-                for (Int32 r = 0; r < 7; r++)
+                for (var r = 0; r < 7; r++)
                 {
                     child.SetRegionByID(r, parent.GetRegionByID(r));
                 }
             }
-            if (this.RegionsLockCheckBox.Checked)
+
+            if (RegionsLockCheckBox.Checked)
             {
                 child.SetLockByID(PluginConstants.LOCK_Regions, true);
             }
+
             #endregion
+
             #region Release Date
-            if (this.ReleaseDateCheckBox.Checked)
+
+            if (ReleaseDateCheckBox.Checked)
             {
                 child.SetDVDReleaseDate(parent.GetDVDReleaseDate());
             }
-            if (this.ReleaseDateLockCheckBox.Checked)
+
+            if (ReleaseDateLockCheckBox.Checked)
             {
                 child.SetLockByID(PluginConstants.LOCK_ReleaseDate, true);
             }
+
             #endregion
+
             #region Case Type
-            if (this.CaseTypeCheckBox.Checked)
+
+            if (CaseTypeCheckBox.Checked)
             {
                 child.SetCaseID(parent.GetCaseID());
                 child.SetCaseSlipCover(parent.GetCaseSlipCover());
             }
-            if (this.CaseTypeLockCheckBox.Checked)
+
+            if (CaseTypeLockCheckBox.Checked)
             {
                 child.SetLockByID(PluginConstants.LOCK_CaseType, true);
             }
+
             #endregion
+
             #region SRP
-            if (this.SrpCheckBox.Checked)
+
+            if (SrpCheckBox.Checked)
             {
                 child.SetSRPValue(0);
+
                 child.SetSRPCurrency(parent.GetSRPCurrency());
             }
-            if (this.SrpLockCheckBox.Checked)
+
+            if (SrpLockCheckBox.Checked)
             {
                 child.SetLockByID(PluginConstants.LOCK_PurchasePrice, true);
             }
+
             #endregion
+
             #region Genres
-            if (this.GenresCheckBox.Checked)
+
+            if (GenresCheckBox.Checked)
             {
-                for (Int32 g = 1; g < 6; g++)
+                for (var g = 1; g < 6; g++)
                 {
                     child.SetGenre(g, parent.GetGenre(g));
                 }
             }
-            if (this.GenresLockCheckBox.Checked)
+
+            if (GenresLockCheckBox.Checked)
             {
                 child.SetLockByID(PluginConstants.LOCK_Genres, true);
             }
+
             #endregion
+
             #region Video Formats
-            if (this.VideoFormatsCheckBox.Checked)
+
+            if (VideoFormatsCheckBox.Checked)
             {
-                Boolean twoDimensional;
-                Boolean threeDimensional;
-                Boolean anaglyph;
+                parent.GetDimensions(out var twoDimensional, out var anaglyph, out var threeDimensional);
 
                 child.SetAspectRatio(parent.GetAspectRatio());
                 child.SetFormatAnamorphic(parent.GetFormatAnamorphic());
@@ -235,42 +286,53 @@ namespace DoenaSoft.DVDProfiler.InitializeTVShowChildProfiles
                 child.SetFormatWidescreen(parent.GetFormatWidescreen());
                 child.SetVideoStandard(parent.GetVideoStandard());
                 child.SetColorType(parent.GetColorType());
-                parent.GetDimensions(out twoDimensional, out anaglyph, out threeDimensional);
                 child.SetDimensions(twoDimensional, anaglyph, threeDimensional);
             }
-            if (this.VideoFormatsLockCheckBox.Checked)
+
+            if (VideoFormatsLockCheckBox.Checked)
             {
                 child.SetLockByID(PluginConstants.LOCK_VideoFormats, true);
             }
+
             #endregion
+
             #region Studios
-            if (this.StudiosCheckBox.Checked)
+
+            if (StudiosCheckBox.Checked)
             {
-                for (Int32 s = 1; s < 4; s++)
+                for (var s = 1; s < 4; s++)
                 {
                     child.SetStudio(s, parent.GetStudio(s));
                 }
             }
-            if (this.StudiosLockCheckBox.Checked)
+
+            if (StudiosLockCheckBox.Checked)
             {
                 child.SetLockByID(PluginConstants.LOCK_Studios, true);
             }
+
             #endregion
+
             #region Media Companies
-            if (this.MediaCompaniesCheckBox.Checked)
+
+            if (MediaCompaniesCheckBox.Checked)
             {
-                for (Int32 mc = 1; mc < 4; mc++)
+                for (var mc = 1; mc < 4; mc++)
                 {
                     child.SetMediaCompany(mc, parent.GetMediaCompany(mc));
                 }
             }
-            if (this.MediaCompaniesLockCheckBox.Checked)
+
+            if (MediaCompaniesLockCheckBox.Checked)
             {
                 //
             }
+
             #endregion
+
             #region Features
-            if (this.FeaturesCheckBox.Checked)
+
+            if (FeaturesCheckBox.Checked)
             {
                 SetFeature(parent, child, PluginConstants.FEATURE_SceneAccess);
                 SetFeature(parent, child, PluginConstants.FEATURE_Trailer);
@@ -305,66 +367,67 @@ namespace DoenaSoft.DVDProfiler.InitializeTVShowChildProfiles
 
                 child.SetOtherFeatures(parent.GetOtherFeatures());
             }
-            if (this.FeaturesLockCheckBox.Checked)
+
+            if (FeaturesLockCheckBox.Checked)
             {
                 child.SetLockByID(PluginConstants.LOCK_Studios, true);
             }
-            #endregion
-            #region Audio Tracks
-            if (this.AudioTracksCheckBox.Checked)
-            {
-                for (Int32 a = 1; a < 17; a++)
-                {
-                    Int32 contentId;
-                    Int32 formatId;
-                    Int32 channelId;
 
-                    parent.GetAudioTrack(a, out contentId, out formatId, out channelId);
+            #endregion
+
+            #region Audio Tracks
+
+            if (AudioTracksCheckBox.Checked)
+            {
+                for (var a = 1; a < 17; a++)
+                {
+                    parent.GetAudioTrack(a, out var contentId, out var formatId, out var channelId);
+
                     child.SetAudioTrack(a, contentId, formatId, channelId);
                 }
             }
-            if (this.AudioTracksLockCheckBox.Checked)
+
+            if (AudioTracksLockCheckBox.Checked)
             {
                 child.SetLockByID(PluginConstants.LOCK_AudioTracks, true);
             }
+
             #endregion
+
             #region Subtitles
-            if (this.SubtitlesCheckBox.Checked)
+
+            if (SubtitlesCheckBox.Checked)
             {
                 child.ClearSubtitles();
-                for (Int32 s = 0; s < parent.GetSubtitleCount(); s++)
+
+                for (int s = 0; s < parent.GetSubtitleCount(); s++)
                 {
                     child.AddSubtitle(parent.GetSubtitleByIndex(s));
                 }
             }
-            if (this.SubtitlesLockCheckBox.Checked)
+
+            if (SubtitlesLockCheckBox.Checked)
             {
                 child.SetLockByID(PluginConstants.LOCK_Subtitles, true);
             }
+
             #endregion
+
             #region Cast
-            if (this.CastCheckBox.Checked)
+
+            if (CastCheckBox.Checked)
             {
                 child.ClearCast();
-                for (Int32 c = 0; c < parent.GetCastCount(); c++)
-                {
-                    String firstName;
-                    String middleName;
-                    String lastName;
-                    Int32 birthYear;
-                    String part;
-                    String creditedAs;
-                    Boolean voice;
-                    Boolean uncredited;
 
-                    parent.GetCastByIndex(c, out firstName, out middleName, out lastName, out birthYear, out part
-                        , out creditedAs, out voice, out uncredited, out var puppeteer);
+                for (var c = 0; c < parent.GetCastCount(); c++)
+                {
+                    parent.GetCastByIndex(c, out var firstName, out var middleName, out var lastName, out var birthYear, out var part, out var creditedAs
+                        , out var voice, out var uncredited, out var puppeteer);
+
                     if (firstName == null && lastName == null)
                     {
-                        String caption;
-                        Int32 dividerType;
+                        parent.GetCastDividerByIndex(c, out var caption, out var dividerType);
 
-                        parent.GetCastDividerByIndex(c, out caption, out dividerType);
                         child.AddCastDivider(caption, dividerType);
                     }
                     else
@@ -373,33 +436,28 @@ namespace DoenaSoft.DVDProfiler.InitializeTVShowChildProfiles
                     }
                 }
             }
-            if (this.CastLockCheckBox.Checked)
+
+            if (CastLockCheckBox.Checked)
             {
                 child.SetLockByID(PluginConstants.LOCK_Cast, true);
             }
+
             #endregion
+
             #region Crew
-            if (this.CrewCheckBox.Checked)
+
+            if (CrewCheckBox.Checked)
             {
                 child.ClearCrew();
-                for (Int32 c = 0; c < parent.GetCrewCount(); c++)
-                {
-                    String firstName;
-                    String middleName;
-                    String lastName;
-                    Int32 birthYear;
-                    Int32 creditType;
-                    Int32 creditSubtype;
-                    String creditedAs;
 
-                    parent.GetCrewByIndex(c, out firstName, out middleName, out lastName, out birthYear, out creditType
-                        , out creditSubtype, out creditedAs);
+                for (var c = 0; c < parent.GetCrewCount(); c++)
+                {
+                    parent.GetCrewByIndex(c, out var firstName, out var middleName, out var lastName, out var birthYear, out var creditType, out var creditSubtype, out var creditedAs);
+
                     if (firstName == null && lastName == null)
                     {
-                        String caption;
-                        Int32 dividerType;
+                        parent.GetCrewDividerByIndex(c, out var caption, out var dividerType, out creditType);
 
-                        parent.GetCrewDividerByIndex(c, out caption, out dividerType, out creditType);
                         child.AddCrewDivider(caption, dividerType, creditType);
                     }
                     else
@@ -408,105 +466,127 @@ namespace DoenaSoft.DVDProfiler.InitializeTVShowChildProfiles
                     }
                 }
             }
-            if (this.CrewLockCheckBox.Checked)
+
+            if (CrewLockCheckBox.Checked)
             {
                 child.SetLockByID(PluginConstants.LOCK_Crew, true);
             }
+
             #endregion
+
             #region Overview
-            if (this.OverviewCheckBox.Checked)
+
+            if (OverviewCheckBox.Checked)
             {
                 child.SetOverview(parent.GetOverview());
             }
-            if (this.OverviewLockCheckBox.Checked)
+            if (OverviewLockCheckBox.Checked)
             {
                 child.SetLockByID(PluginConstants.LOCK_Overview, true);
             }
+
             #endregion
+
             #region Easter Eggs
-            if (this.EasterEggsCheckBox.Checked)
+
+            if (EasterEggsCheckBox.Checked)
             {
                 child.SetEasterEggs(parent.GetEasterEggs());
             }
-            if (this.EasterEggsLockCheckBox.Checked)
+
+            if (EasterEggsLockCheckBox.Checked)
             {
                 child.SetLockByID(PluginConstants.LOCK_EasterEggs, true);
             }
+
             #endregion
+
             #region Discs
-            if (this.DiscsCheckBox.Checked)
+
+            if (DiscsCheckBox.Checked)
             {
                 child.ClearDiscs();
-                for (Int32 d = 0; d < parent.GetDiscCount(); d++)
-                {
-                    String descriptionSideA;
-                    String descriptionSideB;
-                    String labelSideA;
-                    String labelSideB;
-                    String discIdSideA;
-                    String discIdSideB;
-                    Boolean dualLayeredSideA;
-                    Boolean dualLayeredSideB;
-                    String location;
-                    String slot;
 
-                    parent.GetDiscByIndex(d, out descriptionSideA, out descriptionSideB, out labelSideA, out labelSideB
-                        , out discIdSideA, out discIdSideB, out dualLayeredSideA, out dualLayeredSideB, out location, out slot);
+                for (var d = 0; d < parent.GetDiscCount(); d++)
+                {
+                    parent.GetDiscByIndex(d, out var descriptionSideA, out var descriptionSideB, out var labelSideA, out var labelSideB
+                        , out var discIdSideA, out var discIdSideB, out var dualLayeredSideA, out var dualLayeredSideB, out var location, out var slot);
+
                     child.AddDisc(descriptionSideA, descriptionSideB, labelSideA, labelSideB
                         , discIdSideA, discIdSideB, dualLayeredSideA, dualLayeredSideB, location, slot);
                 }
             }
-            if (this.DiscsLockCheckBox.Checked)
+
+            if (DiscsLockCheckBox.Checked)
             {
                 child.SetLockByID(PluginConstants.LOCK_DiscInformation, true);
             }
+
             #endregion
+
             #region Cover Images
-            if (this.FrontCoverImagesCheckBox.Checked)
-            {
-                String source;
 
-                source = parent.GetCoverImageFilename(true, false);
+            if (FrontCoverImagesCheckBox.Checked)
+            {
+                var source = parent.GetCoverImageFilename(true, false);
+
                 CopyCover(parent, child, source);
+
                 source = parent.GetCoverImageFilename(true, true);
-                CopyCover(parent, child, source);
-            }
-            if (this.BackCoverImagesCheckBox.Checked)
-            {
-                String source;
 
-                source = parent.GetCoverImageFilename(false, false);
-                CopyCover(parent, child, source);
-                source = parent.GetCoverImageFilename(false, true);
                 CopyCover(parent, child, source);
             }
-            if (this.CoverImagesLockCheckBox.Checked)
+
+            if (BackCoverImagesCheckBox.Checked)
+            {
+                var source = parent.GetCoverImageFilename(false, false);
+
+                CopyCover(parent, child, source);
+
+                source = parent.GetCoverImageFilename(false, true);
+
+                CopyCover(parent, child, source);
+            }
+
+            if (CoverImagesLockCheckBox.Checked)
             {
                 child.SetLockByID(PluginConstants.LOCK_Scans, true);
             }
+
             #endregion
+
             #region Entire DVD Lock
-            if (this.EntireDvdLockCheckBox.Checked)
+
+            if (EntireDvdLockCheckBox.Checked)
             {
                 child.SetLockByID(PluginConstants.LOCK_Entire, true);
             }
+
             #endregion
+
             #region Purchase Date
-            if (this.PurchaseDateCheckBox.Checked)
+
+            if (PurchaseDateCheckBox.Checked)
             {
                 child.SetPurchaseDate(parent.GetPurchaseDate());
             }
+
             #endregion
+
             #region Purchase Place
-            if (this.PurchasePlaceCheckBox.Checked)
+
+            if (PurchasePlaceCheckBox.Checked)
             {
                 child.SetPurchasePlace(parent.GetPurchasePlace());
                 child.SetPurchasePlaceIsOnline(parent.GetPurchasePlaceIsOnline());
                 child.SetPurchasePlaceWebsite(parent.GetPurchasePlaceWebsite());
             }
+
             #endregion
+
             #region Purchase Price
-            if (this.PurchasePriceCheckBox.Checked)
+
+            if (PurchasePriceCheckBox.Checked)
             {
                 if (parent.GetPurchasePriceIsEmpty())
                 {
@@ -517,57 +597,79 @@ namespace DoenaSoft.DVDProfiler.InitializeTVShowChildProfiles
                     child.SetPurchasePriceValue(parent.GetPurchasePriceValue());
                 }
             }
+
             #endregion
+
             #region Currency
-            if (this.CurrencyCheckBox.Checked)
+
+            if (CurrencyCheckBox.Checked)
             {
                 child.SetPurchasePriceCurrency(parent.GetPurchasePriceCurrency());
             }
+
             #endregion
+
             #region Collection Number
-            if (this.CollectionNumberCheckBox.Checked)
+
+            if (CollectionNumberCheckBox.Checked)
             {
                 child.SetCollectionNumber(parent.GetCollectionNumber());
             }
+
             #endregion
+
             #region Count As
-            if (this.CountAsCheckBox.Checked)
+
+            if (CountAsCheckBox.Checked)
             {
                 child.SetCountAs(parent.GetCountAs());
             }
+
             #endregion
+
             #region Tags
-            if (this.TagsCheckBox.Checked)
+
+            if (TagsCheckBox.Checked)
             {
                 child.ClearTags();
-                for (Int32 t = 0; t < parent.GetTagCount(); t++)
+
+                for (var t = 0; t < parent.GetTagCount(); t++)
                 {
                     child.AddTag(parent.GetTagByIndex(t));
                 }
             }
+
+            #endregion
+
+            #region BoxSet Contents
+
+            if (BoxSetContentLockCheckBox.Checked)
+            {
+                child.SetLockByID(PluginConstants.LOCK_BoxSetContents, true);
+            }
+
             #endregion
         }
 
-        private static void SetFeature(IDVDInfo parent, IDVDInfo child, Int32 feature)
+        private static void SetFeature(IDVDInfo parent, IDVDInfo child, int feature)
         {
             child.SetFeatureByID(feature, parent.GetFeatureByID(feature));
         }
 
-        private static void CopyCover(IDVDInfo parent, IDVDInfo child, String source)
+        private static void CopyCover(IDVDInfo parent, IDVDInfo child, string source)
         {
-            FileInfo fi;
-
-            if (String.IsNullOrEmpty(source) == false)
+            if (string.IsNullOrEmpty(source) == false)
             {
-                fi = new FileInfo(source);
+                var fi = new FileInfo(source);
+
                 if (fi.Exists)
                 {
-                    String target;
+                    var target = fi.FullName.Replace(parent.GetProfileID(), child.GetProfileID());
 
-                    target = fi.FullName.Replace(parent.GetProfileID(), child.GetProfileID());
                     target = target.Replace(".JPG", ".jpg");
                     target = target.Replace("F.jpg", "f.jpg");
                     target = target.Replace("B.jpg", "b.jpg");
+
                     File.Copy(fi.FullName, target, true);
                 }
             }
@@ -585,6 +687,7 @@ namespace DoenaSoft.DVDProfiler.InitializeTVShowChildProfiles
             {
                 this.Left = Plugin.Settings.MainForm.Left;
                 this.Top = Plugin.Settings.MainForm.Top;
+
                 if (Plugin.Settings.MainForm.Width > this.MinimumSize.Width)
                 {
                     this.Width = Plugin.Settings.MainForm.Width;
@@ -593,6 +696,7 @@ namespace DoenaSoft.DVDProfiler.InitializeTVShowChildProfiles
                 {
                     this.Width = this.MinimumSize.Width;
                 }
+
                 if (Plugin.Settings.MainForm.Height > this.MinimumSize.Height)
                 {
                     this.Height = Plugin.Settings.MainForm.Height;
@@ -606,6 +710,7 @@ namespace DoenaSoft.DVDProfiler.InitializeTVShowChildProfiles
             {
                 this.Left = Plugin.Settings.MainForm.RestoreBounds.X;
                 this.Top = Plugin.Settings.MainForm.RestoreBounds.Y;
+
                 if (Plugin.Settings.MainForm.RestoreBounds.Width > this.MinimumSize.Width)
                 {
                     this.Width = Plugin.Settings.MainForm.RestoreBounds.Width;
@@ -614,6 +719,7 @@ namespace DoenaSoft.DVDProfiler.InitializeTVShowChildProfiles
                 {
                     this.Width = this.MinimumSize.Width;
                 }
+
                 if (Plugin.Settings.MainForm.RestoreBounds.Height > this.MinimumSize.Height)
                 {
                     this.Height = Plugin.Settings.MainForm.RestoreBounds.Height;
@@ -623,52 +729,46 @@ namespace DoenaSoft.DVDProfiler.InitializeTVShowChildProfiles
                     this.Height = this.MinimumSize.Height;
                 }
             }
+
             if (Plugin.Settings.MainForm.WindowState != FormWindowState.Minimized)
             {
                 this.WindowState = Plugin.Settings.MainForm.WindowState;
             }
+
             this.ReadDefaultValues();
         }
 
         private void WriteDefaultValues()
         {
-            Type defaultValuesType;
-            FieldInfo[] defaultFields;
-            Type mainFormType;
+            var defaultValuesType = typeof(DefaultValues);
+            var mainFormType = this.GetType();
+            var defaultFields = defaultValuesType.GetFields(BindingFlags.Public | BindingFlags.Instance);
 
-            defaultValuesType = typeof(DefaultValues);
-            mainFormType = this.GetType();
-            defaultFields = defaultValuesType.GetFields(BindingFlags.Public | BindingFlags.Instance);
-            foreach (FieldInfo defaultFieldInfo in defaultFields)
+            foreach (var defaultFieldInfo in defaultFields)
             {
-                FieldInfo fieldInfo;
-                CheckBox checkBox;
+                var fieldInfo = mainFormType.GetField(defaultFieldInfo.Name + "CheckBox", BindingFlags.NonPublic | BindingFlags.Instance);
 
-                fieldInfo = mainFormType.GetField(defaultFieldInfo.Name + "CheckBox"
-                    , BindingFlags.NonPublic | BindingFlags.Instance);
-                checkBox = (CheckBox)(fieldInfo.GetValue(this));
+                var checkBox = (CheckBox)fieldInfo.GetValue(this);
+
                 defaultFieldInfo.SetValue(Plugin.Settings.DefaultValues, checkBox.Checked);
             }
         }
 
         private void ReadDefaultValues()
         {
-            Type defaultValuesType;
-            FieldInfo[] defaultFields;
-            Type mainFormType;
+            var defaultValuesType = typeof(DefaultValues);
 
-            defaultValuesType = typeof(DefaultValues);
-            mainFormType = this.GetType();
-            defaultFields = defaultValuesType.GetFields(BindingFlags.Public | BindingFlags.Instance);
-            foreach (FieldInfo defaultFieldInfo in defaultFields)
+            var mainFormType = this.GetType();
+
+            var defaultFields = defaultValuesType.GetFields(BindingFlags.Public | BindingFlags.Instance);
+
+            foreach (var defaultFieldInfo in defaultFields)
             {
-                FieldInfo fieldInfo;
-                CheckBox checkBox;
+                var fieldInfo = mainFormType.GetField(defaultFieldInfo.Name + "CheckBox", BindingFlags.NonPublic | BindingFlags.Instance);
 
-                fieldInfo = mainFormType.GetField(defaultFieldInfo.Name + "CheckBox"
-                    , BindingFlags.NonPublic | BindingFlags.Instance);
-                checkBox = (CheckBox)(fieldInfo.GetValue(this));
-                checkBox.Checked = (Boolean)(defaultFieldInfo.GetValue(Plugin.Settings.DefaultValues));
+                var checkBox = (CheckBox)fieldInfo.GetValue(this);
+
+                checkBox.Checked = (bool)defaultFieldInfo.GetValue(Plugin.Settings.DefaultValues);
             }
         }
         #endregion

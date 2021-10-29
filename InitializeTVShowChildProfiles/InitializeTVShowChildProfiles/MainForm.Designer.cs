@@ -36,6 +36,8 @@
             this.SetLockOnEntireGroupBox = new System.Windows.Forms.GroupBox();
             this.EntireDvdLockCheckBox = new System.Windows.Forms.CheckBox();
             this.SetLockOnGroupBox = new System.Windows.Forms.GroupBox();
+            this.BoxSetContentLockCheckBox = new System.Windows.Forms.CheckBox();
+            this.TitleLockCheckBox = new System.Windows.Forms.CheckBox();
             this.DiscsLockCheckBox = new System.Windows.Forms.CheckBox();
             this.MediaTypesLockCheckBox = new System.Windows.Forms.CheckBox();
             this.EasterEggsLockCheckBox = new System.Windows.Forms.CheckBox();
@@ -58,6 +60,7 @@
             this.VideoFormatsLockCheckBox = new System.Windows.Forms.CheckBox();
             this.RegionsLockCheckBox = new System.Windows.Forms.CheckBox();
             this.OverwriteGroupBox = new System.Windows.Forms.GroupBox();
+            this.EditionCheckBox = new System.Windows.Forms.CheckBox();
             this.OriginalTitleCheckBox = new System.Windows.Forms.CheckBox();
             this.BackCoverImagesCheckBox = new System.Windows.Forms.CheckBox();
             this.DiscsCheckBox = new System.Windows.Forms.CheckBox();
@@ -94,7 +97,6 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkForUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.EditionCheckBox = new System.Windows.Forms.CheckBox();
             this.TabControl.SuspendLayout();
             this.PublicTabPage.SuspendLayout();
             this.SetLockOnEntireGroupBox.SuspendLayout();
@@ -153,6 +155,8 @@
             // 
             // SetLockOnGroupBox
             // 
+            this.SetLockOnGroupBox.Controls.Add(this.BoxSetContentLockCheckBox);
+            this.SetLockOnGroupBox.Controls.Add(this.TitleLockCheckBox);
             this.SetLockOnGroupBox.Controls.Add(this.DiscsLockCheckBox);
             this.SetLockOnGroupBox.Controls.Add(this.MediaTypesLockCheckBox);
             this.SetLockOnGroupBox.Controls.Add(this.EasterEggsLockCheckBox);
@@ -177,6 +181,18 @@
             resources.ApplyResources(this.SetLockOnGroupBox, "SetLockOnGroupBox");
             this.SetLockOnGroupBox.Name = "SetLockOnGroupBox";
             this.SetLockOnGroupBox.TabStop = false;
+            // 
+            // BoxSetContentLockCheckBox
+            // 
+            resources.ApplyResources(this.BoxSetContentLockCheckBox, "BoxSetContentLockCheckBox");
+            this.BoxSetContentLockCheckBox.Name = "BoxSetContentLockCheckBox";
+            this.BoxSetContentLockCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // TitleLockCheckBox
+            // 
+            resources.ApplyResources(this.TitleLockCheckBox, "TitleLockCheckBox");
+            this.TitleLockCheckBox.Name = "TitleLockCheckBox";
+            this.TitleLockCheckBox.UseVisualStyleBackColor = true;
             // 
             // DiscsLockCheckBox
             // 
@@ -333,6 +349,12 @@
             resources.ApplyResources(this.OverwriteGroupBox, "OverwriteGroupBox");
             this.OverwriteGroupBox.Name = "OverwriteGroupBox";
             this.OverwriteGroupBox.TabStop = false;
+            // 
+            // EditionCheckBox
+            // 
+            resources.ApplyResources(this.EditionCheckBox, "EditionCheckBox");
+            this.EditionCheckBox.Name = "EditionCheckBox";
+            this.EditionCheckBox.UseVisualStyleBackColor = true;
             // 
             // OriginalTitleCheckBox
             // 
@@ -561,12 +583,6 @@
             resources.ApplyResources(this.aboutToolStripMenuItem, "aboutToolStripMenuItem");
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.OnAboutToolStripMenuItemClick);
             // 
-            // EditionCheckBox
-            // 
-            resources.ApplyResources(this.EditionCheckBox, "EditionCheckBox");
-            this.EditionCheckBox.Name = "EditionCheckBox";
-            this.EditionCheckBox.UseVisualStyleBackColor = true;
-            // 
             // MainForm
             // 
             this.AcceptButton = this.OkButton;
@@ -670,5 +686,7 @@
         private System.Windows.Forms.ToolStripMenuItem checkForUpdatesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.CheckBox EditionCheckBox;
+        private System.Windows.Forms.CheckBox TitleLockCheckBox;
+        private System.Windows.Forms.CheckBox BoxSetContentLockCheckBox;
     }
 }

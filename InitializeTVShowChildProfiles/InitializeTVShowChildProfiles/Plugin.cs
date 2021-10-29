@@ -17,17 +17,17 @@ namespace DoenaSoft.DVDProfiler.InitializeTVShowChildProfiles
     {
         internal static Settings Settings;
 
-        private readonly String SettingsFile;
+        private readonly string SettingsFile;
 
-        private readonly String ErrorFile;
+        private readonly string ErrorFile;
 
-        private readonly String ApplicationPath;
+        private readonly string ApplicationPath;
 
         private IDVDProfilerAPI Api;
 
-        private const Int32 MenuId = 1;
+        private const int MenuId = 1;
 
-        private String MenuTokenISCP = "";
+        private string MenuTokenISCP = "";
 
         public Plugin()
         {
@@ -51,7 +51,7 @@ namespace DoenaSoft.DVDProfiler.InitializeTVShowChildProfiles
                 }
                 catch(Exception ex)
                 {
-                    MessageBox.Show(String.Format(MessageBoxTexts.FileCantBeRead, this.SettingsFile, ex.Message)
+                    MessageBox.Show(string.Format(MessageBoxTexts.FileCantBeRead, this.SettingsFile, ex.Message)
                         , MessageBoxTexts.ErrorHeader, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
@@ -70,45 +70,37 @@ namespace DoenaSoft.DVDProfiler.InitializeTVShowChildProfiles
             }
             catch(Exception ex)
             {
-                MessageBox.Show(String.Format(MessageBoxTexts.FileCantBeWritten, this.SettingsFile, ex.Message)
+                MessageBox.Show(string.Format(MessageBoxTexts.FileCantBeWritten, this.SettingsFile, ex.Message)
                     , MessageBoxTexts.ErrorHeader, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             this.Api = null;
         }
 
-        public void HandleEvent(Int32 EventType, Object EventData)
+        public void HandleEvent(int EventType, object EventData)
         {
             if(EventType == PluginConstants.EVENTID_CustomMenuClick)
             {
-                this.HandleMenuClick((Int32)EventData);
+                this.HandleMenuClick((int)EventData);
             }
         }
 
         #region IDVDProfilerPluginInfo Members
-        public String GetName()
+        public string GetName()
         {
-            //if(Settings.DefaultValues.UiCulture!=0)
-            //{
-            //    return (Texts.ResourceManager.GetString("PluginName", CultureInfo.GetCultureInfo(Settings.DefaultValues.UiCulture)));
-            //}
             return (Texts.PluginName);
         }
 
-        public String GetDescription()
+        public string GetDescription()
         {
-            //if(Settings.DefaultValues.UiCulture != 0)
-            //{
-            //    return (Texts.ResourceManager.GetString("PluginDescription", CultureInfo.GetCultureInfo(Settings.DefaultValues.UiCulture)));
-            //}
             return (Texts.PluginDescription);
         }
 
-        public String GetAuthorName()
+        public string GetAuthorName()
         {
             return ("Doena Soft.");
         }
 
-        public String GetAuthorWebsite()
+        public string GetAuthorWebsite()
         {
             //if(Settings.DefaultValues.UiCulture != 0)
             //{
@@ -117,12 +109,12 @@ namespace DoenaSoft.DVDProfiler.InitializeTVShowChildProfiles
             return (Texts.PluginUrl);
         }
 
-        public Int32 GetPluginAPIVersion()
+        public int GetPluginAPIVersion()
         {
             return (PluginConstants.API_VERSION);
         }
 
-        public Int32 GetVersionMajor()
+        public int GetVersionMajor()
         {
             Version version;
 
@@ -130,7 +122,7 @@ namespace DoenaSoft.DVDProfiler.InitializeTVShowChildProfiles
             return (version.Major);
         }
 
-        public Int32 GetVersionMinor()
+        public int GetVersionMinor()
         {
             Version version;
 
@@ -139,7 +131,7 @@ namespace DoenaSoft.DVDProfiler.InitializeTVShowChildProfiles
         }
         #endregion
 
-        private void HandleMenuClick(Int32 MenuEventID)
+        private void HandleMenuClick(int MenuEventID)
         {
             if(MenuEventID == MenuId)
             {
@@ -156,7 +148,7 @@ namespace DoenaSoft.DVDProfiler.InitializeTVShowChildProfiles
                     {
                         ExceptionXml exceptionXml;
 
-                        MessageBox.Show(String.Format(MessageBoxTexts.CriticalError, ex.Message, this.ErrorFile)
+                        MessageBox.Show(string.Format(MessageBoxTexts.CriticalError, ex.Message, this.ErrorFile)
                             , MessageBoxTexts.CriticalErrorHeader, MessageBoxButtons.OK, MessageBoxIcon.Stop);
                         if(File.Exists(this.ErrorFile))
                         {
@@ -167,61 +159,12 @@ namespace DoenaSoft.DVDProfiler.InitializeTVShowChildProfiles
                     }
                     catch(Exception inEx)
                     {
-                        MessageBox.Show(String.Format(MessageBoxTexts.FileCantBeWritten, this.ErrorFile, inEx.Message)
+                        MessageBox.Show(string.Format(MessageBoxTexts.FileCantBeWritten, this.ErrorFile, inEx.Message)
                             , MessageBoxTexts.ErrorHeader, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
         }
-
-
-        //private void HandleMenuClick(Int32 MenuEventID)
-        //{
-        //    if(MenuEventID == MenuId)
-        //    {
-        //        IDVDInfo parent;
-        //        String messageBoxText;
-
-        //        parent = DVDProfilerAPI.GetDisplayedDVD();
-        //        messageBoxText = "Initialize child profiles?" + Environment.NewLine
-        //            + "Warning: The following data will be overwritten with data of the parent profile:"
-        //            + Environment.NewLine + "Region"
-        //            + Environment.NewLine + "Video"
-        //            + Environment.NewLine + "Studios"
-        //            + Environment.NewLine + "Media Companies"
-        //            + Environment.NewLine + "SRP (will be set to 0.00)"
-        //            + Environment.NewLine + "Release Date"
-        //            + Environment.NewLine + "Subtitles"
-        //            + Environment.NewLine + "Genres"
-        //            + Environment.NewLine + "Country of Origin"
-        //            + Environment.NewLine + "Production Year"
-        //            + Environment.NewLine + "Cover Images (optional)"
-        //            + Environment.NewLine + "Cast (optional)"
-        //            + Environment.NewLine + "Crew (optional)";
-        //        if((parent.GetProfileID() != null) && (MessageBox.Show(messageBoxText, "Initialize Child Profiles?"
-        //            , MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes))
-        //        {
-        //            DialogResult copyImages;
-        //            DialogResult copyCastCrew;
-
-        //            DVDProfilerAPI.DVDByProfileID(out parent, parent.GetProfileID(), -1, -1);
-        //            copyImages = MessageBox.Show("Copy Images?", "Copy Images?", MessageBoxButtons.YesNo
-        //                , MessageBoxIcon.Question);
-        //            copyCastCrew = MessageBox.Show("Copy Cast & Crew?", "Copy Cast & Crew?", MessageBoxButtons.YesNo
-        //                , MessageBoxIcon.Question);
-        //            for(Int32 i = 0; i < parent.GetBoxSetContentCount(); i++)
-        //            {
-        //                IDVDInfo child;
-
-        //                DVDProfilerAPI.DVDByProfileID(out child, parent.GetBoxSetContentByIndex(i), -1, -1);
-        //                this.CopyFromParent(parent, child, copyImages, copyCastCrew);
-        //                DVDProfilerAPI.SaveDVDToCollection(child);
-        //                DVDProfilerAPI.UpdateProfileInListDisplay(child.GetProfileID());
-        //            }
-        //            DVDProfilerAPI.RequeryDatabase();
-        //        }
-        //    }
-        //}
 
         private static void CreateSettings()
         {

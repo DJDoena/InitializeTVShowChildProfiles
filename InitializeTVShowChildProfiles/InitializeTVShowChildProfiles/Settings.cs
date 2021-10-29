@@ -1,13 +1,11 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Drawing;
-using System.Globalization;
 using System.IO;
-using System.Windows.Forms;
 using System.Runtime.InteropServices;
-using System.Xml.Serialization;
+using System.Text;
+using System.Windows.Forms;
 using System.Xml;
+using System.Xml.Serialization;
 
 namespace DoenaSoft.DVDProfiler.InitializeTVShowChildProfiles
 {
@@ -17,52 +15,53 @@ namespace DoenaSoft.DVDProfiler.InitializeTVShowChildProfiles
     {
         public SizableForm MainForm;
 
-        public String CurrentVersion;
+        public string CurrentVersion;
 
         public DefaultValues DefaultValues;
 
         private static XmlSerializer s_XmlSerializer;
 
-        [XmlIgnore()]
+        [XmlIgnore]
         public static XmlSerializer XmlSerializer
         {
             get
             {
-                if(s_XmlSerializer == null)
+                if (s_XmlSerializer == null)
                 {
                     s_XmlSerializer = new XmlSerializer(typeof(Settings));
                 }
-                return (s_XmlSerializer);
+
+                return s_XmlSerializer;
             }
         }
 
-        public static void Serialize(String fileName, Settings instance)
+        public static void Serialize(string fileName, Settings instance)
         {
-            using(FileStream fs = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.None))
+            using (var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.None))
             {
-                using(XmlTextWriter xtw = new XmlTextWriter(fs, Encoding.UTF8))
+                using (var xtw = new XmlTextWriter(fs, Encoding.UTF8))
                 {
                     xtw.Formatting = Formatting.Indented;
+
                     XmlSerializer.Serialize(xtw, instance);
                 }
             }
         }
 
-        public void Serialize(String fileName)
+        public void Serialize(string fileName)
         {
             Serialize(fileName, this);
         }
 
-        public static Settings Deserialize(String fileName)
+        public static Settings Deserialize(string fileName)
         {
-            using(FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read))
+            using (var fs = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                using(XmlTextReader xtr = new XmlTextReader(fs))
+                using (var xtr = new XmlTextReader(fs))
                 {
-                    Settings instance;
+                    var instance = (Settings)XmlSerializer.Deserialize(xtr);
 
-                    instance = (Settings)(XmlSerializer.Deserialize(xtr));
-                    return (instance);
+                    return instance;
                 }
             }
         }
@@ -72,18 +71,18 @@ namespace DoenaSoft.DVDProfiler.InitializeTVShowChildProfiles
     [Serializable()]
     public class BaseForm
     {
-        public Int32 Top = 50;
+        public int Top = 50;
 
-        public Int32 Left = 50;
+        public int Left = 50;
     }
 
     [ComVisible(false)]
     [Serializable()]
     public class SizableForm : BaseForm
     {
-        public Int32 Height = 500;
+        public int Height = 500;
 
-        public Int32 Width = 900;
+        public int Width = 900;
 
         public FormWindowState WindowState = FormWindowState.Normal;
 
