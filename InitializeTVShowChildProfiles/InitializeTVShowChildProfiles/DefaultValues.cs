@@ -62,5 +62,6 @@ namespace DoenaSoft.DVDProfiler.InitializeTVShowChildProfiles
         public bool CountAs = false;
         public bool Tags = false;
         public bool BoxSetContentLock = false;
+        public bool RunningTimeLock = false;
     }
 }

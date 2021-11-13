@@ -36,6 +36,7 @@
             this.SetLockOnEntireGroupBox = new System.Windows.Forms.GroupBox();
             this.EntireDvdLockCheckBox = new System.Windows.Forms.CheckBox();
             this.SetLockOnGroupBox = new System.Windows.Forms.GroupBox();
+            this.RunningTimeLockCheckBox = new System.Windows.Forms.CheckBox();
             this.BoxSetContentLockCheckBox = new System.Windows.Forms.CheckBox();
             this.TitleLockCheckBox = new System.Windows.Forms.CheckBox();
             this.DiscsLockCheckBox = new System.Windows.Forms.CheckBox();
@@ -55,7 +56,6 @@
             this.SubtitlesLockCheckBox = new System.Windows.Forms.CheckBox();
             this.ReleaseDateLockCheckBox = new System.Windows.Forms.CheckBox();
             this.SrpLockCheckBox = new System.Windows.Forms.CheckBox();
-            this.MediaCompaniesLockCheckBox = new System.Windows.Forms.CheckBox();
             this.StudiosLockCheckBox = new System.Windows.Forms.CheckBox();
             this.VideoFormatsLockCheckBox = new System.Windows.Forms.CheckBox();
             this.RegionsLockCheckBox = new System.Windows.Forms.CheckBox();
@@ -97,6 +97,7 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkForUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.MediaCompaniesLockCheckBox = new System.Windows.Forms.CheckBox();
             this.TabControl.SuspendLayout();
             this.PublicTabPage.SuspendLayout();
             this.SetLockOnEntireGroupBox.SuspendLayout();
@@ -155,6 +156,7 @@
             // 
             // SetLockOnGroupBox
             // 
+            this.SetLockOnGroupBox.Controls.Add(this.RunningTimeLockCheckBox);
             this.SetLockOnGroupBox.Controls.Add(this.BoxSetContentLockCheckBox);
             this.SetLockOnGroupBox.Controls.Add(this.TitleLockCheckBox);
             this.SetLockOnGroupBox.Controls.Add(this.DiscsLockCheckBox);
@@ -181,6 +183,12 @@
             resources.ApplyResources(this.SetLockOnGroupBox, "SetLockOnGroupBox");
             this.SetLockOnGroupBox.Name = "SetLockOnGroupBox";
             this.SetLockOnGroupBox.TabStop = false;
+            // 
+            // RunningTimeLockCheckBox
+            // 
+            resources.ApplyResources(this.RunningTimeLockCheckBox, "RunningTimeLockCheckBox");
+            this.RunningTimeLockCheckBox.Name = "RunningTimeLockCheckBox";
+            this.RunningTimeLockCheckBox.UseVisualStyleBackColor = true;
             // 
             // BoxSetContentLockCheckBox
             // 
@@ -265,12 +273,14 @@
             resources.ApplyResources(this.ProductionYearLockCheckBox, "ProductionYearLockCheckBox");
             this.ProductionYearLockCheckBox.Name = "ProductionYearLockCheckBox";
             this.ProductionYearLockCheckBox.UseVisualStyleBackColor = true;
+            this.ProductionYearLockCheckBox.CheckedChanged += new System.EventHandler(this.OnProductionYearLockChanged);
             // 
             // CountryOfOriginLockCheckBox
             // 
             resources.ApplyResources(this.CountryOfOriginLockCheckBox, "CountryOfOriginLockCheckBox");
             this.CountryOfOriginLockCheckBox.Name = "CountryOfOriginLockCheckBox";
             this.CountryOfOriginLockCheckBox.UseVisualStyleBackColor = true;
+            this.CountryOfOriginLockCheckBox.CheckedChanged += new System.EventHandler(this.OnCountryOfOriginLockCheckBoxCheckedChanged);
             // 
             // GenresLockCheckBox
             // 
@@ -296,17 +306,12 @@
             this.SrpLockCheckBox.Name = "SrpLockCheckBox";
             this.SrpLockCheckBox.UseVisualStyleBackColor = true;
             // 
-            // MediaCompaniesLockCheckBox
-            // 
-            resources.ApplyResources(this.MediaCompaniesLockCheckBox, "MediaCompaniesLockCheckBox");
-            this.MediaCompaniesLockCheckBox.Name = "MediaCompaniesLockCheckBox";
-            this.MediaCompaniesLockCheckBox.UseVisualStyleBackColor = true;
-            // 
             // StudiosLockCheckBox
             // 
             resources.ApplyResources(this.StudiosLockCheckBox, "StudiosLockCheckBox");
             this.StudiosLockCheckBox.Name = "StudiosLockCheckBox";
             this.StudiosLockCheckBox.UseVisualStyleBackColor = true;
+            this.StudiosLockCheckBox.CheckedChanged += new System.EventHandler(this.OnStudiosLockCheckBoxCheckedChanged);
             // 
             // VideoFormatsLockCheckBox
             // 
@@ -583,6 +588,13 @@
             resources.ApplyResources(this.aboutToolStripMenuItem, "aboutToolStripMenuItem");
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.OnAboutToolStripMenuItemClick);
             // 
+            // MediaCompaniesLockCheckBox
+            // 
+            resources.ApplyResources(this.MediaCompaniesLockCheckBox, "MediaCompaniesLockCheckBox");
+            this.MediaCompaniesLockCheckBox.Name = "MediaCompaniesLockCheckBox";
+            this.MediaCompaniesLockCheckBox.UseVisualStyleBackColor = true;
+            this.MediaCompaniesLockCheckBox.CheckedChanged += new System.EventHandler(this.OnMediaCompaniesLockCheckBoxCheckedChanged);
+            // 
             // MainForm
             // 
             this.AcceptButton = this.OkButton;
@@ -644,7 +656,6 @@
         private System.Windows.Forms.CheckBox SubtitlesLockCheckBox;
         private System.Windows.Forms.CheckBox ReleaseDateLockCheckBox;
         private System.Windows.Forms.CheckBox SrpLockCheckBox;
-        private System.Windows.Forms.CheckBox MediaCompaniesLockCheckBox;
         private System.Windows.Forms.CheckBox StudiosLockCheckBox;
         private System.Windows.Forms.CheckBox VideoFormatsLockCheckBox;
         private System.Windows.Forms.CheckBox RegionsLockCheckBox;
@@ -688,5 +699,7 @@
         private System.Windows.Forms.CheckBox EditionCheckBox;
         private System.Windows.Forms.CheckBox TitleLockCheckBox;
         private System.Windows.Forms.CheckBox BoxSetContentLockCheckBox;
+        private System.Windows.Forms.CheckBox RunningTimeLockCheckBox;
+        private System.Windows.Forms.CheckBox MediaCompaniesLockCheckBox;
     }
 }

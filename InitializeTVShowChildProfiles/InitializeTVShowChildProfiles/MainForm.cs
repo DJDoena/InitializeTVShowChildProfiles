@@ -93,9 +93,30 @@ namespace DoenaSoft.DVDProfiler.InitializeTVShowChildProfiles
             SetLockOnGroupBox.Enabled = (EntireDvdLockCheckBox.Checked == false);
         }
 
+        private void OnProductionYearLockChanged(object sender, EventArgs e)
+        {
+            CountryOfOriginLockCheckBox.Checked = ProductionYearLockCheckBox.Checked;
+        }
+
+        private void OnCountryOfOriginLockCheckBoxCheckedChanged(object sender, EventArgs e)
+        {
+            ProductionYearLockCheckBox.Checked = CountryOfOriginLockCheckBox.Checked;
+        }
+
+        private void OnStudiosLockCheckBoxCheckedChanged(object sender, EventArgs e)
+        {
+            MediaCompaniesLockCheckBox.Checked = StudiosLockCheckBox.Checked;
+        }
+
+        private void OnMediaCompaniesLockCheckBoxCheckedChanged(object sender, EventArgs e)
+        {
+            StudiosLockCheckBox.Checked = MediaCompaniesLockCheckBox.Checked;
+        }
+
         #endregion
 
         #region Helper Functions
+
         private void CopyFromParent(IDVDInfo parent, IDVDInfo child)
         {
             #region Media Types
@@ -649,12 +670,18 @@ namespace DoenaSoft.DVDProfiler.InitializeTVShowChildProfiles
             }
 
             #endregion
+
+            #region RunningTime
+
+            if (RunningTimeLockCheckBox.Checked)
+            {
+                child.SetLockByID(PluginConstants.LOCK_RunningTime, true);
+            }
+
+            #endregion
         }
 
-        private static void SetFeature(IDVDInfo parent, IDVDInfo child, int feature)
-        {
-            child.SetFeatureByID(feature, parent.GetFeatureByID(feature));
-        }
+        private static void SetFeature(IDVDInfo parent, IDVDInfo child, int feature) => child.SetFeatureByID(feature, parent.GetFeatureByID(feature));
 
         private static void CopyCover(IDVDInfo parent, IDVDInfo child, string source)
         {
@@ -771,6 +798,7 @@ namespace DoenaSoft.DVDProfiler.InitializeTVShowChildProfiles
                 checkBox.Checked = (bool)defaultFieldInfo.GetValue(Plugin.Settings.DefaultValues);
             }
         }
+
         #endregion
     }
 }
