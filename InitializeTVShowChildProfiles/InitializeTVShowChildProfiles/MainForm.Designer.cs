@@ -56,6 +56,7 @@
             this.SubtitlesLockCheckBox = new System.Windows.Forms.CheckBox();
             this.ReleaseDateLockCheckBox = new System.Windows.Forms.CheckBox();
             this.SrpLockCheckBox = new System.Windows.Forms.CheckBox();
+            this.MediaCompaniesLockCheckBox = new System.Windows.Forms.CheckBox();
             this.StudiosLockCheckBox = new System.Windows.Forms.CheckBox();
             this.VideoFormatsLockCheckBox = new System.Windows.Forms.CheckBox();
             this.RegionsLockCheckBox = new System.Windows.Forms.CheckBox();
@@ -97,7 +98,6 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkForUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.MediaCompaniesLockCheckBox = new System.Windows.Forms.CheckBox();
             this.TabControl.SuspendLayout();
             this.PublicTabPage.SuspendLayout();
             this.SetLockOnEntireGroupBox.SuspendLayout();
@@ -305,6 +305,13 @@
             resources.ApplyResources(this.SrpLockCheckBox, "SrpLockCheckBox");
             this.SrpLockCheckBox.Name = "SrpLockCheckBox";
             this.SrpLockCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // MediaCompaniesLockCheckBox
+            // 
+            resources.ApplyResources(this.MediaCompaniesLockCheckBox, "MediaCompaniesLockCheckBox");
+            this.MediaCompaniesLockCheckBox.Name = "MediaCompaniesLockCheckBox";
+            this.MediaCompaniesLockCheckBox.UseVisualStyleBackColor = true;
+            this.MediaCompaniesLockCheckBox.CheckedChanged += new System.EventHandler(this.OnMediaCompaniesLockCheckBoxCheckedChanged);
             // 
             // StudiosLockCheckBox
             // 
@@ -587,13 +594,6 @@
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
             resources.ApplyResources(this.aboutToolStripMenuItem, "aboutToolStripMenuItem");
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.OnAboutToolStripMenuItemClick);
-            // 
-            // MediaCompaniesLockCheckBox
-            // 
-            resources.ApplyResources(this.MediaCompaniesLockCheckBox, "MediaCompaniesLockCheckBox");
-            this.MediaCompaniesLockCheckBox.Name = "MediaCompaniesLockCheckBox";
-            this.MediaCompaniesLockCheckBox.UseVisualStyleBackColor = true;
-            this.MediaCompaniesLockCheckBox.CheckedChanged += new System.EventHandler(this.OnMediaCompaniesLockCheckBoxCheckedChanged);
             // 
             // MainForm
             // 

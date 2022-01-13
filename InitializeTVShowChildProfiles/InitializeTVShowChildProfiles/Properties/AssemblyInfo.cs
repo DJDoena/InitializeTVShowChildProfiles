@@ -6,14 +6,14 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Doena Soft.")]
 [assembly: AssemblyProduct("Initialize TV Show Child Profiles")]
-[assembly: AssemblyCopyright("Copyright © Doena Soft. 2010 - 2021")]
+[assembly: AssemblyCopyright("Copyright © Doena Soft. 2010 - 2022")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
 [assembly: ComVisible(true)]
 [assembly: Guid("70C12F2D-6389-4F57-8D3B-A8BC0705BDA8")]
 
-[assembly: AssemblyVersion("3.0.2.2")]
-[assembly: AssemblyFileVersion("3.0.2.2")]
+[assembly: AssemblyVersion("3.0.2.3")]
+[assembly: AssemblyFileVersion("3.0.2.3")]
 
 [assembly: AssemblyDelaySign(false)]
