@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\packages\DoenaSoft.DVDProfilerHelper.2.2.9\build\net452\DoenaSoft.DVDProfilerHelper.props" Condition="Exists('..\..\packages\DoenaSoft.DVDProfilerHelper.2.2.9\build\net452\DoenaSoft.DVDProfilerHelper.props')" />
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
     <ProductVersion>9.0.30729</ProductVersion>
@@ -10,7 +11,7 @@
     <ApplicationIcon>DJDSOFT.ICO</ApplicationIcon>
     <AssemblyKeyContainerName>
     </AssemblyKeyContainerName>
-    <AssemblyName>InitializeTVShowChildProfiles</AssemblyName>
+    <AssemblyName>DoenaSoft.InitializeTVShowChildProfiles</AssemblyName>
     <AssemblyOriginatorKeyFile>InitializeTVShowChildProfiles.snk</AssemblyOriginatorKeyFile>
     <DefaultClientScript>JScript</DefaultClientScript>
     <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
@@ -28,6 +29,8 @@
     <OldToolsVersion>3.5</OldToolsVersion>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -57,7 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\PluginInterface\PluginInterface.5.cs">
+    <Compile Include="..\..\PluginInterface\DVDProfiler.Interface\PluginInterface.5.cs">
       <Link>PluginInterface.5.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -88,6 +91,7 @@
   <ItemGroup>
     <None Include="DJDSOFT.ICO" />
     <None Include="InitializeTVShowChildProfiles.snk" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MainForm.resx">
@@ -103,16 +107,17 @@
       <LastGenOutput>Texts.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\DVDProfilerHelper\DVDProfilerHelper\DVDProfilerHelper.csproj">
-      <Project>{461DACCA-8EBF-4C03-AD1A-C438E4EB3B36}</Project>
-      <Name>DVDProfilerHelper</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
-    <PostBuildEvent>"%25ProgramFiles(x86)%25\Inno Setup 6\iscc.exe"  ..\..\..\..\InitializeTVShowChildProfilesSetup\Setup.iss</PostBuildEvent>
+    <PostBuildEvent>copy /y ..\..\..\djdsoft.ico .
+"%25ProgramFiles(x86)%25\Inno Setup 6\iscc.exe"  ..\..\..\..\InitializeTVShowChildProfilesSetup\Setup.iss</PostBuildEvent>
   </PropertyGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\DoenaSoft.DVDProfilerHelper.2.2.9\build\net452\DoenaSoft.DVDProfilerHelper.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\DoenaSoft.DVDProfilerHelper.2.2.9\build\net452\DoenaSoft.DVDProfilerHelper.props'))" />
+  </Target>
 </Project>
