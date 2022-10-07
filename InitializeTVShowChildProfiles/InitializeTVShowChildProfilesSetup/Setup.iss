@@ -68,8 +68,8 @@ Root: HKLM; Subkey: "Software\Classes\CLSID\{{B57886BD-AEA0-4a23-A691-2A36175989
 Root: HKLM; Subkey: "Software\Classes\DoenaSoft.DVDProfiler.InitializeTVShowChildProfiles.Plugin"; Flags: dontcreatekey uninsdeletekey
 
 [Code]
-function IsDotNET45Detected(): boolean;
-// Function to detect dotNet framework version 4.0
+function IsDotNET4Detected(): boolean;
+// Function to detect dotNet framework version 4
 // Returns true if it is available, false it's not.
 var
 dotNetStatus: boolean;
@@ -82,7 +82,7 @@ function InitializeSetup(): Boolean;
 // Called at the beginning of the setup package.
 begin
 
-if not IsDotNET45Detected then
+if not IsDotNET4Detected then
 begin
 MsgBox( 'The Microsoft .NET Framework version 4 is not installed. Please install it and try again.', mbInformation, MB_OK );
 Result := false;
@@ -90,4 +90,3 @@ end
 else
 Result := true;
 end;
-
