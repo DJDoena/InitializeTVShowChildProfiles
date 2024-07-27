@@ -1,8 +1,8 @@
 [Setup]
 AppName=Initialize TV Show Child Profiles
 AppId=InitializeTVShowChildProfiles
-AppVerName=Initialize TV Show Child Profiles 3.0.2.3
-AppCopyright=Copyright © Doena Soft. 2010 - 2022
+AppVerName=Initialize TV Show Child Profiles 3.0.2.4
+AppCopyright=Copyright © Doena Soft. 2010 - 2024
 AppPublisher=Doena Soft.
 AppPublisherURL=http://doena-journal.net/en/dvd-profiler-tools/
 DefaultDirName={commonpf32}\Doena Soft.\Initialize TV Show Child Profiles
@@ -19,9 +19,9 @@ WizardStyle=modern
 DisableReadyPage=yes
 ShowLanguageDialog=no
 VersionInfoCompany=Doena Soft.
-VersionInfoCopyright=2010 - 2022
+VersionInfoCopyright=2010 - 2024
 VersionInfoDescription=Initialize TV Show Child Profiles Setup
-VersionInfoVersion=3.0.2.3
+VersionInfoVersion=3.0.2.4
 UninstallDisplayIcon={app}\djdsoft.ico
 
 [Languages]
@@ -35,11 +35,21 @@ Name: "full"; Description: "Full installation"
 
 [Files]
 Source: "djdsoft.ico"; DestDir: "{app}"; Flags: ignoreversion
-Source: "DoenaSoft.DVDProfilerHelper.dll"; DestDir: "{app}"; Flags: ignoreversion
+
 Source: "DoenaSoft.InitializeTVShowChildProfiles.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "DoenaSoft.InitializeTVShowChildProfiles.pdb"; DestDir: "{app}"; Flags: ignoreversion
 
-Source: "de\DoenaSoft.DVDProfilerHelper.resources.dll"; DestDir: "{app}\de"; Flags: ignoreversion
+Source: "DoenaSoft.AbstractionLayer.Web.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "DoenaSoft.DVDProfiler.Helper.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "DoenaSoft.ToolBox.dll"; DestDir: "{app}"; Flags: ignoreversion
+
+Source: "System.Buffers.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "System.Memory.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "System.Numerics.Vectors.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "System.Resources.Extensions.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "System.Runtime.CompilerServices.Unsafe.dll"; DestDir: "{app}"; Flags: ignoreversion
+
+Source: "de\DoenaSoft.DVDProfiler.Helper.resources.dll"; DestDir: "{app}\de"; Flags: ignoreversion
 
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
@@ -49,7 +59,7 @@ Filename: "{win}\Microsoft.NET\Framework\v4.0.30319\RegAsm.exe"; Parameters: "/c
 ;[UninstallDelete]
 
 [UninstallRun]
-Filename: "{win}\Microsoft.NET\Framework\v4.0.30319\RegAsm.exe"; Parameters: "/u ""{app}\DoenaSoft.InitializeTVShowChildProfiles.dll"""; Flags: runhidden
+Filename: "{win}\Microsoft.NET\Framework\v4.0.30319\RegAsm.exe"; Parameters: "/u ""{app}\DoenaSoft.InitializeTVShowChildProfiles.dll"""; Flags: runhidden; RunOnceId: "UninstallCOM"
 
 [Registry]
 ; Register - Cleanup ahead of time in case the user didn't uninstall the previous version.

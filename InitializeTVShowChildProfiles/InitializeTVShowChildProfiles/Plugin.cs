@@ -1,10 +1,10 @@
 using System;
-using System.Runtime.InteropServices;
-using System.Text;
-using Invelos.DVDProfilerPlugin;
-using System.Windows.Forms;
 using System.IO;
+using System.Runtime.InteropServices;
+using System.Windows.Forms;
 using DoenaSoft.DVDProfiler.DVDProfilerHelper;
+using DoenaSoft.ToolBox.Generics;
+using Invelos.DVDProfilerPlugin;
 
 namespace DoenaSoft.DVDProfiler.InitializeTVShowChildProfiles
 {
@@ -31,54 +31,54 @@ namespace DoenaSoft.DVDProfiler.InitializeTVShowChildProfiles
 
         public Plugin()
         {
-            this.ApplicationPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Doena Soft\InitTVShowChildren\";
-            this.SettingsFile = ApplicationPath + "InitTVShowChildrenSettings.xml";
-            this.ErrorFile = Environment.GetEnvironmentVariable("TEMP") + @"\InitTVShowChildrenCrash.xml";
+            ApplicationPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Doena Soft\InitTVShowChildren\";
+            SettingsFile = ApplicationPath + "InitTVShowChildrenSettings.xml";
+            ErrorFile = Environment.GetEnvironmentVariable("TEMP") + @"\InitTVShowChildrenCrash.xml";
         }
 
         public void Load(IDVDProfilerAPI api)
         {
-            this.Api = api;
-            if(Directory.Exists(this.ApplicationPath) == false)
+            Api = api;
+            if (Directory.Exists(ApplicationPath) == false)
             {
-                Directory.CreateDirectory(this.ApplicationPath);
+                Directory.CreateDirectory(ApplicationPath);
             }
-            if(File.Exists(this.SettingsFile))
+            if (File.Exists(SettingsFile))
             {
                 try
                 {
-                    Settings = Settings.Deserialize(this.SettingsFile);
+                    Settings = Settings.Deserialize(SettingsFile);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(string.Format(MessageBoxTexts.FileCantBeRead, this.SettingsFile, ex.Message)
+                    MessageBox.Show(string.Format(MessageBoxTexts.FileCantBeRead, SettingsFile, ex.Message)
                         , MessageBoxTexts.ErrorHeader, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             CreateSettings();
-            this.Api.RegisterForEvent(PluginConstants.EVENTID_FormCreated);
-            MenuTokenISCP = this.Api.RegisterMenuItem(PluginConstants.FORMID_Main, PluginConstants.MENUID_Form
+            Api.RegisterForEvent(PluginConstants.EVENTID_FormCreated);
+            MenuTokenISCP = Api.RegisterMenuItem(PluginConstants.FORMID_Main, PluginConstants.MENUID_Form
                 , @"DVD", "Initialize TV Show Child Profiles", MenuId);
         }
 
         public void Unload()
         {
-            this.Api.UnregisterMenuItem(MenuTokenISCP);
+            Api.UnregisterMenuItem(MenuTokenISCP);
             try
             {
-                Settings.Serialize(this.SettingsFile);
+                Settings.Serialize(SettingsFile);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                MessageBox.Show(string.Format(MessageBoxTexts.FileCantBeWritten, this.SettingsFile, ex.Message)
+                MessageBox.Show(string.Format(MessageBoxTexts.FileCantBeWritten, SettingsFile, ex.Message)
                     , MessageBoxTexts.ErrorHeader, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            this.Api = null;
+            Api = null;
         }
 
         public void HandleEvent(int EventType, object EventData)
         {
-            if(EventType == PluginConstants.EVENTID_CustomMenuClick)
+            if (EventType == PluginConstants.EVENTID_CustomMenuClick)
             {
                 this.HandleMenuClick((int)EventData);
             }
@@ -133,33 +133,33 @@ namespace DoenaSoft.DVDProfiler.InitializeTVShowChildProfiles
 
         private void HandleMenuClick(int MenuEventID)
         {
-            if(MenuEventID == MenuId)
+            if (MenuEventID == MenuId)
             {
                 try
                 {
-                    using(MainForm mainForm = new MainForm(this.Api))
+                    using (MainForm mainForm = new MainForm(Api))
                     {
                         mainForm.ShowDialog();
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     try
                     {
                         ExceptionXml exceptionXml;
 
-                        MessageBox.Show(string.Format(MessageBoxTexts.CriticalError, ex.Message, this.ErrorFile)
+                        MessageBox.Show(string.Format(MessageBoxTexts.CriticalError, ex.Message, ErrorFile)
                             , MessageBoxTexts.CriticalErrorHeader, MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                        if(File.Exists(this.ErrorFile))
+                        if (File.Exists(ErrorFile))
                         {
                             File.Delete(ErrorFile);
                         }
                         exceptionXml = new ExceptionXml(ex);
-                        DVDProfilerSerializer<ExceptionXml>.Serialize(ErrorFile, exceptionXml);
+                        Serializer<ExceptionXml>.Serialize(ErrorFile, exceptionXml);
                     }
-                    catch(Exception inEx)
+                    catch (Exception inEx)
                     {
-                        MessageBox.Show(string.Format(MessageBoxTexts.FileCantBeWritten, this.ErrorFile, inEx.Message)
+                        MessageBox.Show(string.Format(MessageBoxTexts.FileCantBeWritten, ErrorFile, inEx.Message)
                             , MessageBoxTexts.ErrorHeader, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
@@ -168,15 +168,15 @@ namespace DoenaSoft.DVDProfiler.InitializeTVShowChildProfiles
 
         private static void CreateSettings()
         {
-            if(Settings == null)
+            if (Settings == null)
             {
                 Settings = new Settings();
             }
-            if(Settings.MainForm == null)
+            if (Settings.MainForm == null)
             {
                 Settings.MainForm = new SizableForm();
             }
-            if(Settings.DefaultValues == null)
+            if (Settings.DefaultValues == null)
             {
                 Settings.DefaultValues = new DefaultValues();
             }
