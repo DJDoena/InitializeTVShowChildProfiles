@@ -29,6 +29,11 @@ namespace DoenaSoft.DVDProfiler.InitializeTVShowChildProfiles
 
         private string MenuTokenISCP = "";
 
+        static Plugin()
+        {
+            DVDProfilerHelperAssemblyLoader.Load();
+        }
+
         public Plugin()
         {
             ApplicationPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Doena Soft\InitTVShowChildren\";
