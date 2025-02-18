@@ -1,120 +1,79 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup>
-    <ProjectType>Local</ProjectType>
-    <ProductVersion>9.0.30729</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{9D3A8C8E-F498-45F0-9282-2F3DF44A3600}</ProjectGuid>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ApplicationIcon>DJDSOFT.ICO</ApplicationIcon>
-    <AssemblyKeyContainerName>
-    </AssemblyKeyContainerName>
-    <AssemblyName>DoenaSoft.InitializeTVShowChildProfiles</AssemblyName>
-    <AssemblyOriginatorKeyFile>InitializeTVShowChildProfiles.snk</AssemblyOriginatorKeyFile>
-    <DefaultClientScript>JScript</DefaultClientScript>
-    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
-    <DefaultTargetSchema>IE50</DefaultTargetSchema>
-    <DelaySign>false</DelaySign>
-    <OutputType>Library</OutputType>
-    <RootNamespace>DoenaSoft.DVDProfiler.InitializeTVShowChildProfiles</RootNamespace>
-    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
-    <StartupObject>
-    </StartupObject>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <UpgradeBackupLocation>
-    </UpgradeBackupLocation>
-    <OldToolsVersion>3.5</OldToolsVersion>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <TargetFrameworkProfile />
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x86\InitializeTVShowChildProfiles\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <BaseAddress>285212672</BaseAddress>
-    <FileAlignment>4096</FileAlignment>
-    <RegisterForComInterop>true</RegisterForComInterop>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System">
-      <Name>System</Name>
-    </Reference>
-    <Reference Include="System.Drawing">
-      <Name>System.Drawing</Name>
-    </Reference>
-    <Reference Include="System.Windows.Forms">
-      <Name>System.Windows.Forms</Name>
-    </Reference>
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="..\..\PluginInterface\DVDProfiler.Interface\PluginInterface.5.cs">
-      <Link>PluginInterface.5.cs</Link>
-    </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DefaultValues.cs" />
-    <Compile Include="MainForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MainForm.Designer.cs">
-      <DependentUpon>MainForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MessageBoxTexts.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MessageBoxTexts.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Plugin.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Settings.cs" />
-    <Compile Include="Texts.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Texts.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="DJDSOFT.ICO" />
-    <None Include="InitializeTVShowChildProfiles.snk" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="MainForm.resx">
-      <DependentUpon>MainForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MessageBoxTexts.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>MessageBoxTexts.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Texts.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Texts.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="DoenaSoft.DVDProfiler.Helper">
-      <Version>3.0.8</Version>
-    </PackageReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PreBuildEvent>
-    </PreBuildEvent>
-    <PostBuildEvent>copy /y ..\..\..\djdsoft.ico .
-"%25ProgramFiles(x86)%25\Inno Setup 6\iscc.exe"  ..\..\..\..\InitializeTVShowChildProfilesSetup\Setup.iss</PostBuildEvent>
-  </PropertyGroup>
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<AssemblyName>DoenaSoft.InitializeTVShowChildProfiles</AssemblyName>
+		<RootNamespace>DoenaSoft.DVDProfiler.InitializeTVShowChildProfiles</RootNamespace>
+		<OutputType>Library</OutputType>
+		<TargetFrameworks>net472</TargetFrameworks>
+		<Platforms>x86</Platforms>
+		<UseWindowsForms>true</UseWindowsForms>
+		<EmbeddedResourceUseDependentUponConvention>true</EmbeddedResourceUseDependentUponConvention>
+		<LangVersion>10.0</LangVersion>
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+		<SignAssembly>True</SignAssembly>
+		<AssemblyOriginatorKeyFile>InitializeTVShowChildProfiles.snk</AssemblyOriginatorKeyFile>
+		<Title>InitializeTVShowChildProfiles</Title>
+		<Product>DVD Profiler Add by DVD Disc ID</Product>
+		<Description>This program copy data from the parent profile into the child profiles.</Description>
+		<Company>Doena Soft.</Company>
+		<Authors>DJ Doena</Authors>
+		<Copyright>Copyright © Doena Soft. 2010 - 2025</Copyright>
+		<Version>3.0.3</Version>
+		<FileVersion>3.0.3</FileVersion>
+		<EnableComHosting>true</EnableComHosting>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <Compile Include="..\..\PluginInterface\DVDProfiler.Interface\PluginInterface.5.cs" Link="PluginInterface.5.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="DoenaSoft.AbstractionLayer.IO" Version="3.0.1" />
+		<PackageReference Include="DoenaSoft.CalculateDvdDiscId" Version="1.0.5" />
+		<PackageReference Include="DoenaSoft.DVDProfiler.Xml" Version="5.0.11" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="Texts.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Texts.resx</DependentUpon>
+		</Compile>
+		<Compile Update="MessageBoxTexts.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>MessageBoxTexts.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Plugin.Generated.cs">
+			<DependentUpon>Plugin.cs</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Update="Texts.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Texts.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Texts.de.resx">
+			<DependentUpon>Texts.resx</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Update="MessageBoxTexts.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>MessageBoxTexts.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="MessageBoxTexts.de.resx">
+			<DependentUpon>MessageBoxTexts.resx</DependentUpon>
+		</EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="djdsoft.ico">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<Exec Command="IF &quot;$(Configuration)&quot;==&quot;Debug&quot; (&#xD;&#xA;  &quot;C:\Windows\Microsoft.NET\Framework\v4.0.30319\RegAsm.exe&quot; /codebase &quot;bin\$(Platform)\$(Configuration)\$(TargetFramework)\DoenaSoft.InitializeTVShowChildProfiles.dll&quot;&#xD;&#xA;) ELSE (&#xD;&#xA;  rem xcopy /y djdsoft.ico bin\$(Platform)\$(Configuration)\$(TargetFramework)&#xD;&#xA;  &quot;%25ProgramFiles(x86)%25\Inno Setup 6\iscc.exe&quot; ..\InitializeTVShowChildProfilesSetup\Setup.iss&#xD;&#xA;)" />
+	</Target>
+
 </Project>

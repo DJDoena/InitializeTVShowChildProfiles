@@ -155,7 +155,7 @@ namespace DoenaSoft.DVDProfiler.InitializeTVShowChildProfiles
                             File.Delete(ErrorFile);
                         }
                         exceptionXml = new ExceptionXml(ex);
-                        Serializer<ExceptionXml>.Serialize(ErrorFile, exceptionXml);
+                        XmlSerializer<ExceptionXml>.Serialize(ErrorFile, exceptionXml);
                     }
                     catch (Exception inEx)
                     {
