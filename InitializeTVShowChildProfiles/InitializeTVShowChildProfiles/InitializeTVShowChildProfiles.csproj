@@ -8,19 +8,19 @@
 		<Platforms>x86</Platforms>
 		<UseWindowsForms>true</UseWindowsForms>
 		<EmbeddedResourceUseDependentUponConvention>true</EmbeddedResourceUseDependentUponConvention>
-		<LangVersion>10.0</LangVersion>
+		<LangVersion>latest</LangVersion>
 		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 		<SignAssembly>True</SignAssembly>
 		<AssemblyOriginatorKeyFile>InitializeTVShowChildProfiles.snk</AssemblyOriginatorKeyFile>
+		<EnableComHosting>true</EnableComHosting>
 		<Title>InitializeTVShowChildProfiles</Title>
 		<Product>DVD Profiler Add by DVD Disc ID</Product>
 		<Description>This program copy data from the parent profile into the child profiles.</Description>
 		<Company>Doena Soft.</Company>
 		<Authors>DJ Doena</Authors>
-		<Copyright>Copyright © Doena Soft. 2010 - 2025</Copyright>
+		<Copyright>Copyright © Doena Soft. 2010 - 2026</Copyright>
 		<Version>3.0.3</Version>
 		<FileVersion>3.0.3</FileVersion>
-		<EnableComHosting>true</EnableComHosting>
 	</PropertyGroup>
 
 	<ItemGroup>
