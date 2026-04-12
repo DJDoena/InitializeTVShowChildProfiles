@@ -28,7 +28,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="DoenaSoft.DVDProfiler.Helper" Version="3.0.12" />
+	  <PackageReference Include="DoenaSoft.DVDProfiler.Helper" Version="4.0.1" />
 	</ItemGroup>
 
 	<ItemGroup>
